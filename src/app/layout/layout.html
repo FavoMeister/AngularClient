@@ -1,0 +1,102 @@
+<mat-sidenav-container class="sidenav-container" fullscreen>
+  <!-- Sidebar mejorada -->
+  <mat-sidenav #drawer mode="side" opened fixedInViewport="true" fixedTopGap="64" class="app-sidenav">
+    <mat-toolbar color="primary" class="sidenav-toolbar">
+      <span>Menú</span>
+      <span class="spacer"></span>
+      <button mat-icon-button (click)="drawer.toggle()" class="hide-on-desktop">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+    </mat-toolbar>
+    
+    <mat-nav-list>
+      <a mat-list-item routerLink="/" routerLinkActive="active-link" (click)="drawer.mode === 'over' ? drawer.close() : null">
+        <mat-icon matListItemIcon>home</mat-icon>
+        <span matListItemTitle>Inicio</span>
+      </a>
+      
+      <a mat-list-item routerLink="/cars" routerLinkActive="active-link" (click)="drawer.mode === 'over' ? drawer.close() : null">
+        <mat-icon matListItemIcon>directions_car</mat-icon>
+        <span matListItemTitle>Vehículos</span>
+      </a>
+      
+      <a mat-list-item routerLink="/offers" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>local_offer</mat-icon>
+        <span matListItemTitle>Ofertas</span>
+      </a>
+      
+      <mat-divider></mat-divider>
+      
+      <a mat-list-item routerLink="/about" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>info</mat-icon>
+        <span matListItemTitle>Acerca de</span>
+      </a>
+      
+      <a mat-list-item routerLink="/contact" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>contact_mail</mat-icon>
+        <span matListItemTitle>Contacto</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- Contenido principal -->
+  <mat-sidenav-content>
+    <!-- Barra de herramientas mejorada -->
+    <mat-toolbar color="primary" class="main-toolbar">
+      <button mat-icon-button (click)="drawer.toggle()" class="hide-on-desktop">
+        <mat-icon>menu</mat-icon>
+      </button>
+      
+      <span class="toolbar-title" routerLink="/">Mi Tienda de Autos</span>
+      
+      <span class="spacer"></span>
+      
+      <!-- Barra de búsqueda responsive -->
+      <div class="search-container">
+        <mat-form-field appearance="outline" floatLabel="always">
+          <input matInput placeholder="Buscar autos..." [matAutocomplete]="auto" />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+        <mat-autocomplete #auto="matAutocomplete">
+          <!-- Aquí puedes agregar sugerencias de búsqueda -->
+        </mat-autocomplete>
+      </div>
+      
+      <!-- Menú de usuario -->
+      <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="Menú de usuario">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item routerLink="/login">
+          <mat-icon>login</mat-icon>
+          <span>Iniciar Sesión</span>
+        </button>
+        <button mat-menu-item routerLink="/register">
+          <mat-icon>person_add</mat-icon>
+          <span>Registrarse</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item>
+          <mat-icon>settings</mat-icon>
+          <span>Configuración</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+
+    <!-- Contenido -->
+    <div class="content-container">
+      <router-outlet></router-outlet>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="app-footer mat-elevation-z8">
+      <div class="footer-content">
+        <span>© 2023 Mi Tienda de Autos. Todos los derechos reservados.</span>
+        <div class="footer-links">
+          <a routerLink="/privacy">Política de Privacidad</a>
+          <a routerLink="/terms">Términos de Servicio</a>
+        </div>
+      </div>
+    </footer>
+  </mat-sidenav-content>
+</mat-sidenav-container>

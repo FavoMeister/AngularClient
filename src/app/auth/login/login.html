@@ -24,8 +24,9 @@
             </mat-error>
         </mat-form-field>
 
-        <button mat-raised-button color="primary" type="submit" class="full-width" [disabled]="!loginForm.valid">
-            Iniciar Sesión
+        <button mat-raised-button color="primary" type="submit" class="full-width" [disabled]="!loginForm.valid || isLoading">
+            <span *ngIf="!isLoading">Iniciar Sesión</span>
+            <span *ngIf="isLoading">Cargando...</span>
         </button>
         </form>
     </mat-card-content>

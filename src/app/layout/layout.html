@@ -65,18 +65,39 @@
       <!-- Menú de usuario -->
       <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="Menú de usuario">
         <mat-icon>account_circle</mat-icon>
+        @if (authService.getCurrentUser()) {
+          <span class="user-name">
+            {{ authService.getCurrentUser().name }}
+          </span>
+        }
       </button>
+
       <mat-menu #userMenu="matMenu">
-        <button mat-menu-item routerLink="/login">
-          <mat-icon>login</mat-icon>
-          <span>Iniciar Sesión</span>
-        </button>
-        <button mat-menu-item routerLink="/register">
-          <mat-icon>person_add</mat-icon>
-          <span>Registrarse</span>
-        </button>
+        @if (!authService.isAuthenticated()) {
+          <button mat-menu-item routerLink="/login">
+            <mat-icon>login</mat-icon>
+            <span>Iniciar Sesión</span>
+          </button>
+          <button mat-menu-item routerLink="/register">
+            <mat-icon>person_add</mat-icon>
+            <span>Registrarse</span>
+          </button>
+        }
+
+        @if (authService.isAuthenticated()) {
+          <button mat-menu-item routerLink="/profile">
+            <mat-icon>account_circle</mat-icon>
+            <span>Mi Perfil</span>
+          </button>
+          <button mat-menu-item (click)="onLogout()">
+            <mat-icon>logout</mat-icon>
+            <span>Cerrar Sesión</span>
+          </button>
+        }
+
         <mat-divider></mat-divider>
-        <button mat-menu-item>
+        
+        <button mat-menu-item routerLink="/settings">
           <mat-icon>settings</mat-icon>
           <span>Configuración</span>
         </button>
@@ -91,7 +112,7 @@
     <!-- Footer -->
     <footer class="app-footer mat-elevation-z8">
       <div class="footer-content">
-        <span>© 2023 Mi Tienda de Autos. Todos los derechos reservados.</span>
+        <span>© 2025 Mi Tienda de Autos. Todos los derechos reservados.</span>
         <div class="footer-links">
           <a routerLink="/privacy">Política de Privacidad</a>
           <a routerLink="/terms">Términos de Servicio</a>

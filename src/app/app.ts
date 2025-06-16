@@ -4,6 +4,7 @@ import { Layout } from "./layout/layout";
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,10 @@ import { MatNativeDateModule } from '@angular/material/core';
     Layout,
     MatCardModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+  ],
+  providers: [
+    HttpClientModule
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'

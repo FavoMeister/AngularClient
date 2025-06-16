@@ -8,6 +8,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterModule } from '@angular/router';
+import { User } from '../../models/user';
+import { MatProgressSpinner, MatSpinner } from '@angular/material/progress-spinner';
+import { Auth } from '../../services/auth';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +24,8 @@ import { Router, RouterModule } from '@angular/router';
     MatButtonModule,
     RouterModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatProgressSpinner
   ],
   template: `
     <div class="register-container">
@@ -35,6 +40,14 @@ import { Router, RouterModule } from '@angular/router';
               <input matInput formControlName="name" required>
               <mat-error *ngIf="registerForm.get('name')?.hasError('required')">
                 Nombre es requerido
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Apellido</mat-label>
+              <input matInput formControlName="lastname" required>
+              <mat-error *ngIf="registerForm.get('lastname')?.hasError('required')">
+                Apellido es requerido
               </mat-error>
             </mat-form-field>
 
@@ -72,7 +85,8 @@ import { Router, RouterModule } from '@angular/router';
             </mat-form-field>
 
             <button mat-raised-button color="primary" type="submit" class="full-width" [disabled]="!registerForm.valid">
-              Registrarse
+              <span *ngIf="!loading">Registrarse</span>
+              <mat-spinner *ngIf="loading" diameter="24"></mat-spinner>
             </button>
           </form>
         </mat-card-content>
@@ -88,6 +102,7 @@ import { Router, RouterModule } from '@angular/router';
       justify-content: center;
       align-items: center;
       height: 100vh;
+      padding: 1rem;
       background-color: #f5f5f5;
     }
     .register-card {
@@ -99,17 +114,32 @@ import { Router, RouterModule } from '@angular/router';
       width: 100%;
       margin-bottom: 1rem;
     }
+    mat-spinner {
+      margin: 0 auto;
+    }
+
+    .error-snackbar {
+      background-color: #f44336;
+      color: white;
+    }
   `]
 })
 export class Register {
   registerForm: FormGroup;
+  public user: User;
+  loading = false;
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private authService: Auth,
+    private snackBar: MatSnackBar
+    
   ) {
+    this.user = new User(1, "ROLE_USER", '', '', '', '');
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
+      lastname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required]
@@ -122,11 +152,47 @@ export class Register {
   }
 
   onSubmit() {
-    if (this.registerForm.valid) {
-      console.log('Formulario válido', this.registerForm.value);
+    if (this.registerForm.valid && !this.loading) {
+      this.loading = true;
+      //console.log('Formulario válido', this.registerForm.value, this.user);
       // Aquí iría la lógica de registro
+      const formData = this.registerForm.value;
+      const newUser = new User(
+        0,
+        'ROLE_USER',
+        formData.name,
+        formData.lastName,
+        formData.email,
+        formData.password
+      );
+      console.log(this.user);
+      this.authService.register(newUser).subscribe({
+        next: (response: any) => {
+          this.loading = false;
+          this.snackBar.open('Registro exitoso! Por favor inicia sesión.', 'Cerrar', {
+            duration: 5000
+          });
+          this.router.navigate(['/login']);
+        },
+        error: (error) => {
+          this.loading = false;
+          let errorMessage = 'Error en el registro';
+          
+          if (error.error && error.error.message) {
+            errorMessage = error.error.message;
+          } else if (error.status === 400) {
+            errorMessage = 'El email ya está registrado';
+          }
+          console.log(error);
+          
+          this.snackBar.open(errorMessage, 'Cerrar', {
+            duration: 5000,
+            panelClass: ['error-snackbar']
+          });
+        }
+      });
       // this.authService.register(this.registerForm.value).subscribe(...)
-      this.router.navigate(['/login']);
+      //this.router.navigate(['/login']);
     }
   }
 }

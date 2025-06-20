@@ -165,7 +165,6 @@ export class Register {
         formData.email,
         formData.password
       );
-      console.log(this.user);
       this.authService.register(newUser).subscribe({
         next: (response: any) => {
           this.loading = false;
@@ -183,7 +182,6 @@ export class Register {
           } else if (error.status === 400) {
             errorMessage = 'El email ya está registrado';
           }
-          console.log(error);
           
           this.snackBar.open(errorMessage, 'Cerrar', {
             duration: 5000,

@@ -30,4 +30,10 @@ export class Car {
       catchError(this.handleError)
     );
   }
+
+  getCarById(id: number): Observable<{ message: string, data: CarModel }> {
+    return this.http.get<{ message: string, data: CarModel }>(`${this.apiUrl}/cars/${id}`).pipe(
+      catchError(this.handleError)
+    );
+  }
 }

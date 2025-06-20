@@ -1,0 +1,23 @@
+.car-card {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 20px;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+img {
+  max-height: 500px;
+  object-fit: contain;
+}

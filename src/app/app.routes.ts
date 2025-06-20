@@ -4,6 +4,7 @@ import { Register } from './auth/register/register'
 import { RegisterCar } from './cars/register-car/register-car';
 import { authGuard } from './auth-guard';
 import { CarList } from './cars/car-list/car-list';
+import { CarDetail } from './cars/car-detail/car-detail';
 
 export const routes: Routes = [
     { 
@@ -22,6 +23,11 @@ export const routes: Routes = [
     {
         path: 'cars/register',
         component: RegisterCar,
+        canActivate: [authGuard]
+    },
+    {
+        path: 'cars/:id',
+        component: CarDetail,
         canActivate: [authGuard]
     },
 ];

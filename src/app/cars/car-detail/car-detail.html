@@ -1,0 +1,59 @@
+<ng-container *ngIf="!isLoading">
+  <mat-card class="car-card">
+    <mat-card-header>
+      <mat-card-title>{{ car?.title }}</mat-card-title>
+      <mat-card-subtitle>
+        {{ car?.created_at | date:'longDate' }}
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <img 
+      mat-card-image 
+      [src]="car?.image || 'assets/images/no-image.jpg'" 
+      [alt]="car?.title"
+    >
+
+    <mat-card-content>
+      <mat-divider></mat-divider>
+      
+      <h3>Descripción</h3>
+      <p>{{ car?.description }}</p>
+      
+      <mat-divider></mat-divider>
+      
+      <div class="details-grid">
+        <div>
+          <h4>Precio</h4>
+          <p>{{ car?.price | currency:'USD':'symbol':'1.2-2' }}</p>
+        </div>
+        <div>
+          <h4>Estado</h4>
+          <p>
+            <mat-icon [color]="car?.status ? 'primary' : 'warn'">
+              {{ car?.status ? 'check_circle' : 'block' }}
+            </mat-icon>
+            {{ car?.status ? 'Disponible' : 'No disponible' }}
+          </p>
+        </div>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button (click)="router.navigate(['/cars'])">
+        <mat-icon>arrow_back</mat-icon>
+        Volver
+      </button>
+      <button 
+        *ngIf="authService.isAdmin()"
+        mat-raised-button 
+        color="primary"
+        [routerLink]="['/cars/edit', car?.id]"
+      >
+        <mat-icon>edit</mat-icon>
+        Editar
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</ng-container>
+
+<mat-spinner *ngIf="isLoading" diameter="50"></mat-spinner>

@@ -5,6 +5,7 @@ import { RegisterCar } from './cars/register-car/register-car';
 import { authGuard } from './auth-guard';
 import { CarList } from './cars/car-list/car-list';
 import { CarDetail } from './cars/car-detail/car-detail';
+import { CarEdit } from './cars/car-edit/car-edit';
 
 export const routes: Routes = [
     { 
@@ -30,4 +31,9 @@ export const routes: Routes = [
         component: CarDetail,
         canActivate: [authGuard]
     },
+    {
+        path: 'cars/edit/:id',
+        component: CarEdit,
+        canActivate: [authGuard] // Solo para admins
+    }
 ];

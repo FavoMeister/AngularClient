@@ -1,0 +1,31 @@
+.edit-card {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.current-image {
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.preview-image {
+  max-height: 200px;
+  max-width: 100%;
+  border-radius: 4px;
+}
+
+.file-upload {
+  margin: 1rem 0;
+}
+.button-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}

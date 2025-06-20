@@ -25,15 +25,32 @@ export class Car {
     ));
   }
 
+  // Car Store
   registerCar(formData: FormData): Observable<CarModel> {
     return this.http.post<CarModel>(`${this.apiUrl}/crear-auto`, formData).pipe(
       catchError(this.handleError)
     );
   }
 
+  // Show Car
   getCarById(id: number): Observable<{ message: string, data: CarModel }> {
     return this.http.get<{ message: string, data: CarModel }>(`${this.apiUrl}/cars/${id}`).pipe(
       catchError(this.handleError)
     );
   }
+
+  // Edit Cars
+  updateCar(id: number, carData: FormData): Observable<CarModel> {
+    return this.http.put<CarModel>(`${this.apiUrl}/actualizar-auto/${id}`, carData).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getCarForEdit(id: number): Observable<{ message: string, data: {car: CarModel, current_user: any[]} }> {
+    return this.http.get<{ message: string, data: {car: CarModel, current_user: any[]} }>(`${this.apiUrl}/ver-auto/${id}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+
 }

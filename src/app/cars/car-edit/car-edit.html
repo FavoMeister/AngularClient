@@ -1,0 +1,71 @@
+<mat-card class="edit-card">
+  <mat-card-header>
+    <mat-card-title>Editar Auto</mat-card-title>
+  </mat-card-header>
+  
+  <form [formGroup]="carForm" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+      <!-- Campo Título -->
+      <mat-form-field appearance="outline">
+        <mat-label>Título</mat-label>
+        <input matInput formControlName="title" required>
+        @if (carForm.get('title')?.hasError('required')) {
+            <mat-error>El título es requerido</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Campo Descripción -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Descripción</mat-label>
+        <textarea matInput formControlName="description" rows="4" required></textarea>
+        @if (carForm.get('description')?.hasError('required')) {
+            <mat-error>La descripción es requerida</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Campo Precio -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Precio</mat-label>
+        <input matInput type="number" formControlName="price" required>
+        @if (carForm.get('price')?.hasError('required')) {
+            <mat-error>El precio es requerido</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Campo Estado -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Estado</mat-label>
+        <mat-select formControlName="status" required>
+          <mat-option [value]="true">Disponible</mat-option>
+          <mat-option [value]="false">No Disponible</mat-option>
+        </mat-select>
+        @if (carForm.get('status')?.hasError('required')) {
+            <mat-error>El estado es requerido</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Imagen Actual -->
+      @if (currentImageUrl) {
+        <div class="current-image">
+          <img [src]="currentImageUrl" alt="Imagen actual" class="preview-image">
+          <span>Imagen actual</span>
+        </div>
+      }
+
+      <!-- Selector de Nueva Imagen -->
+      <div class="file-upload">
+        <input type="file" (change)="onFileSelected($event)" accept="image/*">
+        <small>Selecciona una nueva imagen (opcional)</small>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions class="button-row">
+      <button mat-raised-button color="primary" type="submit" [disabled]="carForm.invalid">
+        Guardar Cambios
+      </button>
+      <button mat-raised-button type="button" (click)="router.navigate(['/cars', carId])">
+        Cancelar
+      </button>
+    </mat-card-actions>
+  </form>
+</mat-card>

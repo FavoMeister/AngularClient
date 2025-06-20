@@ -4,8 +4,9 @@ export class Car {
         public title: string,
         public description: string,
         public price: number,
-        public status: string,
+        public status: boolean,
         public createdAt: any,
-        public updatedAt: any
+        public updatedAt: any,
+        public image?: string,
     ){}
 }

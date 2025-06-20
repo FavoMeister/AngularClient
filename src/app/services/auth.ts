@@ -106,4 +106,25 @@ export class Auth {
     const token = this.getToken();
     return token ? this.jwtHelper.getTokenExpirationDate(token) : null;
   }
+
+  /*getCurrentUser(): User | null {
+    const token = localStorage.getItem('access_token');
+    if (token && !this.jwtHelper.isTokenExpired(token)) {
+      const decoded = this.jwtHelper.decodeToken(token);
+      return {
+        id: decoded.sub,
+        role: decoded.role, // Asegúrate que tu backend envíe el rol en el token
+        name: decoded.name,
+        lastName: decoded.lastName,
+        email: decoded.email,
+        password: '' // No es necesario almacenar la contraseña
+      };
+    }
+    return null;
+  }*/
+  
+  isAdmin(): boolean {
+    const user = this.getCurrentUser();
+    return user?.role === 'admin';
+  }
 }

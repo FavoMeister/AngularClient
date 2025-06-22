@@ -40,8 +40,8 @@ export class Car {
   }
 
   // Edit Cars
-  updateCar(id: number, carData: FormData): Observable<CarModel> {
-    return this.http.put<CarModel>(`${this.apiUrl}/actualizar-auto/${id}`, carData).pipe(
+  updateCar(carData: FormData, id: number): Observable<CarModel> {
+    return this.http.post<CarModel>(`${this.apiUrl}/actualizar-auto/${id}`, carData).pipe(
       catchError(this.handleError)
     );
   }
@@ -52,5 +52,17 @@ export class Car {
     );
   }
 
+  updateCarStatus(id: number, status: boolean): Observable<CarModel> {
+    return this.http.patch<CarModel>(
+      `${this.apiUrl}/cars/${id}/status`,
+      { status }
+    );
+  }
+
+  deleteCar(id: number): Observable<void> {
+    return this.http.delete<void>(
+      `${this.apiUrl}/eliminar-auto/${id}`
+    );
+  }
 
 }

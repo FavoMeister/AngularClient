@@ -43,8 +43,6 @@ export class CarDetail {
   loadCar(id: number) {
     this.carService.getCarById(id).subscribe({
       next: (response) => {
-        console.log(response.data);
-        
         this.car = response.data;
         this.isLoading = false;
       },

@@ -82,7 +82,7 @@ export class CarEdit {
 
     const formData = new FormData();
     const formValue = this.carForm.getRawValue();
-    console.log('Valores del formulario:', formValue);
+
     formData.append('title', formValue.title!);
     formData.append('description', formValue.description!);
     formData.append('price', formValue.price!.toString());
@@ -91,11 +91,8 @@ export class CarEdit {
     if (this.carForm.value.image) {
       formData.append('image', this.carForm.value.image);
     }
-    formData.forEach((value, key) => {
-      console.log(key, value);
-    });
     
-    this.carService.updateCar(this.carId, formData).subscribe({
+    this.carService.updateCar(formData, this.carId).subscribe({
       next: () => {
         this.snackBar.open('Auto actualizado con éxito', 'Cerrar', { duration: 3000 });
         this.router.navigate(['/cars', this.carId]);
